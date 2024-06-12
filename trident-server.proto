@@ -1,0 +1,20 @@
+syntax = "proto3";
+package trident;
+
+service HostManagement {
+    rpc UpdateHost (UpdateHostRequest) returns (stream HostStatusResponse);
+    rpc GetHostStatus (GetHostStatusRequest) returns (stream HostStatusResponse);
+}
+
+message UpdateHostRequest {
+    string host_config = 1;
+    string allowed_operations = 2;
+}
+
+message HostStatusResponse {
+    string host_status = 1;
+}
+
+message GetHostStatusRequest {
+    // This message is intentionally empty
+}
