@@ -88,7 +88,7 @@ app.post('/updateHost', (req, res) => {
   console.log('gRPC Request:', grpcRequest);
 
   // Make a gRPC call to UpdateHost with the request body
-  const call = client.UpdateHost({}, (error, response) => {
+  const call = client.UpdateHost(grpcRequest, (error, response) => {
     if (error) {
       // If there is an error, send a 500 status with the error message
       return res.status(500).send(error);
