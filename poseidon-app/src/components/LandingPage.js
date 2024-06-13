@@ -19,18 +19,16 @@ function LandingPage() {
         console.log("Hostname:", client.hostname_);
         console.log("Request:", request);
 
-        const stream = client.getHostStatus(request, {});
-        stream.on('data', (response) => {
-            const status = response.getHostStatus();
-            console.log('Received response from gRPC server:', status);
-            navigate('/response', { state: { status } });
-        });
+        console.log("NOW Sending request to server...");
+        client.getHostStatus(request, {}, (err, response) => {
+            if (err) {
+                console.error('Error:', err);
+                return;
+            }
+            console.log('Response:', response.getMessage());
 
-        stream.on('error', (err) => {
-            console.error('Error received from gRPC server:', err.message);
-            setError(err.message);
         });
-    };
+    }
 
     return (
         <div>
