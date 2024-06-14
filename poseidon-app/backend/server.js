@@ -54,7 +54,9 @@ const getHostStatus = (res, retryCount = 0) => {
   });
 
   call.on('end', () => {
-    res.json(responseData);
+    if (!res.headersSent) {
+      res.json(responseData);
+    }
   });
 
   call.on('error', (error) => {
@@ -64,7 +66,9 @@ const getHostStatus = (res, retryCount = 0) => {
         getHostStatus(res, retryCount + 1);
       }, RETRY_INTERVAL);
     } else {
-      res.status(500).send(error.message);
+      if (!res.headersSent) {
+        res.status(500).send({ message: 'Failed to get host status after multiple retries' });
+      }
     }
   });
 };
@@ -96,7 +100,9 @@ app.post('/updateHost', (req, res) => {
   });
 
   // Immediately respond to the client
-  res.status(200).send({ message: 'Host update initiated' });
+  if (!res.headersSent) {
+    res.status(200).send({ message: 'Host update initiated' });
+  }
 
   call.on('error', (error) => {
     console.error('Stream error:', error);
