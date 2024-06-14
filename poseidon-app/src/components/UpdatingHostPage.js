@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Spin, Typography } from "antd";
+import { Spin, Typography, Layout, message } from "antd";
 
+const { Header, Footer, Content } = Layout;
 const { Title } = Typography;
 
 const UpdatingHostPage = () => {
@@ -17,9 +18,10 @@ const UpdatingHostPage = () => {
       try {
         const response = await axios.get('/getHostStatus');
         if (response.data && Object.keys(response.data).length > 0) {
+          message.success('Host updated successfully!');
           navigate('/host-status', { state: { hostStatus: response.data } });
         } else {
-          //throw an error if the response data is empty
+          // Throw an error if the response data is empty
           throw new Error('Failed to get host status');
         }
       } catch (error) {
@@ -37,11 +39,25 @@ const UpdatingHostPage = () => {
   }, [navigate]);
 
   return (
-    <div>
-      <Title level={2}>Updating Host Machine</Title>
-      <Spin size="large" />
-      <p>Please wait while the host is being updated.</p>
-    </div>
+    <Layout style={{ minHeight: '100vh' }}>
+      <Header style={{ background: '#001529', padding: '0 20px' }}>
+        <Title level={3} style={{ color: 'white', margin: 15 }}>
+          Poseidon
+        </Title>
+      </Header>
+      <Content style={{ padding: '50px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ textAlign: 'center' }}>
+          <Title level={2}>Updating Host Machine</Title>
+          <Spin size="large" style={{ margin: '20px 0' }} />
+          <p>Please wait while the host is being updated.</p>
+        </div>
+      </Content>
+      <Footer style={{ textAlign: 'center' }}>
+        Created by Nadiia Dubchak, Adit Jha
+        <br />
+        Azure Linux Hackathon ©2024
+      </Footer>
+    </Layout>
   );
 };
 

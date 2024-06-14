@@ -73,13 +73,13 @@ const getHostStatus = (res, retryCount = 0) => {
   });
 };
 
-// Define a route to handle the getHostStatus request
+// Define a route to handle the getHostStatus request.
 app.get('/getHostStatus', (req, res) => {
   console.log('Received request for /getHostStatus');
   getHostStatus(res);
 });
 
-// Define a route to handle the updateHost request with a POST request
+// Define a route to handle the updateHost request with a POST request.
 app.post('/updateHost', (req, res) => {
   console.log('Received request for /updateHost');
   console.log(req.body);
@@ -110,5 +110,5 @@ app.post('/updateHost', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log('Server is running on port ${PORT}');
 });
