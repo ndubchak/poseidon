@@ -23,14 +23,18 @@ Follow these steps to set up and run the Poseidon application locally.
 
 `git clone https://github.com/yourusername/poseidon.git`
 
-`cd poseidon/poseidon-app`
-
 2. Install any dependencies
 Frontend
 Navigate to the poseidon-app directory and install the dependencies:
-`npm install`
 
-3. Run the application
+```bash
+cd poseidon/poseidon-app
+
+npm install
+
+```
+
+4. Run the application:
 `npm start`
 
 By default, this will start the backend server on `localhost:8080` and the web app on `localhost:3000`. You can navigate to the web app to start managing your Trident host machine!
