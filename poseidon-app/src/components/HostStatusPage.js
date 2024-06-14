@@ -12,7 +12,13 @@ const HostStatusPage = () => {
   useEffect(() => {
     const fetchHostStatus = async () => {
       try {
-        const data = location.state?.hostStatus || (await axios.get('/getHostStatus')).data;
+        // Check if location.state.hostStatus is valid
+        const isValidHostStatus = location.state?.hostStatus && Object.keys(location.state.hostStatus).length > 0;
+        // If hostStatus is not valid, make a GET request to /getHostStatus
+        const data = isValidHostStatus
+          ? location.state.hostStatus
+          : (await axios.get('/getHostStatus')).data;
+
         setHostStatus(yaml.dump(data)); // Convert to YAML
         setError(null);
       } catch (err) {
@@ -31,8 +37,8 @@ const HostStatusPage = () => {
     <div>
       <h1>Host Status</h1>
       {error && <div style={{ color: 'red' }}>{error}</div>}
-      <pre>{hostStatus}</pre> {/* Display YAML */}
       <button onClick={handleBackClick} style={{ marginTop: '20px' }}>Back to Home</button>
+      <pre>{hostStatus}</pre> {/* Display YAML */}
     </div>
   );
 };

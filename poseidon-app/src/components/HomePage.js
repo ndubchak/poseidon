@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const LandingPage = () => {
+const HomePage = () => {
   const navigate = useNavigate();
 
   const handleGetHostStatusClick = () => {
@@ -25,4 +25,4 @@ const LandingPage = () => {
   );
 };
 
-export default LandingPage;
+export default HomePage;
