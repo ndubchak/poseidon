@@ -33,9 +33,8 @@ const HostStatusPage = () => {
 
         const hostStatusYaml = data[0].host_status;
         const hostStatus = yaml.load(hostStatusYaml, { schema: CUSTOM_SCHEMA }); // Parse the YAML string with custom schema
-        const spec = hostStatus?.spec;
-        const specYaml = yaml.dump(spec, { schema: CUSTOM_SCHEMA });
-        setHostStatus(specYaml); // Convert to YAML
+        const statusYaml = yaml.dump(hostStatus, { schema: CUSTOM_SCHEMA });
+        setHostStatus(statusYaml); // Convert to YAML
         setError(null);
       } catch (err) {
         setError(err.message);
