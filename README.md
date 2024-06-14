@@ -11,7 +11,7 @@ Poseidon is a web application for monitoring and managing hosts serviced by Trid
 
 # Prerequisites
 - Node.js (v14.x or higher)
-- npm (v6.x or higher) or yarn
+- npm (v6.x or higher)
 - Your host serviced by Trident running on a VM spinned up with `make run-netlaunch`.
 
 # Getting Started
