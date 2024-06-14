@@ -25,7 +25,7 @@ Follow these steps to set up and run the Poseidon application locally.
 
 2. Install any dependencies
 Frontend
-Navigate to the poseidon-app directory and install the dependencies:
+Navigate to the poseidon-app directory and install Npm:
 
 ```bash
 cd poseidon/poseidon-app
