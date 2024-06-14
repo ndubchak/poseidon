@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Spin, Typography } from "antd";
+
+const { Title } = Typography;
 
 const UpdatingHostPage = () => {
   const navigate = useNavigate();
@@ -35,7 +38,8 @@ const UpdatingHostPage = () => {
 
   return (
     <div>
-      <h1>Updating your host...</h1>
+      <Title level={2}>Updating Host Machine</Title>
+      <Spin size="large" />
       <p>Please wait while the host is being updated.</p>
     </div>
   );

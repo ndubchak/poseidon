@@ -2,23 +2,28 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import yaml from 'js-yaml';
+import { Form, Input, Button, Typography, message } from 'antd';
+
+const { TextArea } = Input;
+
+const { Title } = Typography;
 
 const UpdateHostPage = () => {
-  const [hostConfig, setHostConfig] = useState('');
-  const [allowedOperations, setAllowedOperations] = useState('');
   const [updateError, setUpdateError] = useState(null);
   const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (values) => {
     setUpdateError(null);
+    const { hostConfig, allowedOperations } = values;
 
     let parsedHostConfig;
     let parsedAllowedOperations;
 
     try {
       parsedHostConfig = yaml.load(hostConfig);
-      parsedAllowedOperations = yaml.load(allowedOperations);
+      parsedAllowedOperations = allowedOperations
+        .split(',')
+        .map(op => op.trim());
     } catch (error) {
       setUpdateError('Invalid YAML input: ' + error.message);
       return;
@@ -43,35 +48,42 @@ const UpdateHostPage = () => {
 
   return (
     <div>
-      <h2>Update Host</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="hostConfig">Host Config (YAML):</label>
-          <textarea
-            id="hostConfig"
-            value={hostConfig}
-            onChange={(e) => setHostConfig(e.target.value)}
-            placeholder="key: value"
+      <Title level={2}>Update Host</Title>
+      <Form
+        layout="vertical"
+        onFinish={handleSubmit}
+      >
+        <Form.Item
+          label="Host Config (YAML)"
+          name="hostConfig"
+          rules={[{ required: true, message: 'Please input the host configuration in YAML format!' }]}
+        >
+          <TextArea
             rows={5}
+            placeholder="key: value"
             style={{ width: '100%' }}
           />
-        </div>
-        <div>
-          <label htmlFor="allowedOperations">Allowed Operations (comma-separated):</label>
-          <input
-            type="text"
-            id="allowedOperations"
-            value={allowedOperations}
-            onChange={(e) => setAllowedOperations(e.target.value)}
-            placeholder="operation1, operation2"
+        </Form.Item>
+        <Form.Item
+          label="Allowed Operations (comma-separated)"
+          name="allowedOperations"
+          rules={[{ required: true, message: 'Please input the allowed operations!' }]}
+        >
+          <Input
+            placeholder="example: update, transition"
             style={{ width: '100%' }}
           />
-        </div>
-        <button type="submit">Update Host</button>
-      </form>
-
+        </Form.Item>
+        <Form.Item>
+          <Button type="primary" htmlType="submit">
+            Update Host
+          </Button>
+        </Form.Item>
+      </Form>
       {updateError && <div style={{ color: 'red' }}>{updateError}</div>}
-      <button onClick={handleBackClick} style={{ marginTop: '20px' }}>Back to Home</button>
+      <Button onClick={handleBackClick} style={{ marginTop: '20px' }}>
+        Back to Home
+      </Button>
     </div>
   );
 };

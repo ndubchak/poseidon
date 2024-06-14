@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import yaml from 'js-yaml';
+import { Button, Typography, Alert } from 'antd';
+
+const { Title, Paragraph } = Typography;
 
 const HostStatusPage = () => {
   const [hostStatus, setHostStatus] = useState('');
@@ -35,10 +38,12 @@ const HostStatusPage = () => {
 
   return (
     <div>
-      <h1>Host Status</h1>
-      {error && <div style={{ color: 'red' }}>{error}</div>}
-      <button onClick={handleBackClick} style={{ marginTop: '20px' }}>Back to Home</button>
-      <pre>{hostStatus}</pre> {/* Display YAML */}
+      <Title level={2}>Host Status</Title>
+      {error && <Alert message="Error" description={error} type="error" showIcon />}
+      <Button type="primary" onClick={handleBackClick} style={{ marginTop: '20px' }}>Back to Home</Button>
+      <Paragraph>
+        <pre style={{ whiteSpace: 'pre-wrap' }}>{hostStatus}</pre> {/* Display YAML */}
+      </Paragraph>
     </div>
   );
 };
