@@ -4,6 +4,8 @@ const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const path = require('path');
+
 
 // Create an instance of an Express application
 const app = express();
@@ -14,7 +16,7 @@ app.use(bodyParser.json());
 
 
 // Define the path to your .proto file
-const PROTO_PATH = '/home/aditjha/dev/poseidon/trident-server.proto';
+const PROTO_PATH = path.resolve(__dirname, '../../trident-server.proto');
 
 // Load the protobuf definition
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
