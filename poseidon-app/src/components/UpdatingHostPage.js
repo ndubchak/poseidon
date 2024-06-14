@@ -13,8 +13,11 @@ const UpdatingHostPage = () => {
       const RETRY_INTERVAL = Math.min(1000 * 2 ** retryCount, 30000); // Exponential backoff
       try {
         const response = await axios.get('/getHostStatus');
-        if (response.data) {
+        if (response.data && Object.keys(response.data).length > 0) {
           navigate('/host-status', { state: { hostStatus: response.data } });
+        } else {
+          //throw an error if the response data is empty
+          throw new Error('Failed to get host status');
         }
       } catch (error) {
         console.error('Error fetching host status:', error);
