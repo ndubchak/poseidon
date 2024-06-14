@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import yaml from 'js-yaml';
 
 const UpdateHostPage = () => {
   const [hostConfig, setHostConfig] = useState('');
@@ -12,9 +13,20 @@ const UpdateHostPage = () => {
     event.preventDefault();
     setUpdateError(null);
 
+    let parsedHostConfig;
+    let parsedAllowedOperations;
+
+    try {
+      parsedHostConfig = yaml.load(hostConfig);
+      parsedAllowedOperations = yaml.load(allowedOperations);
+    } catch (error) {
+      setUpdateError('Invalid YAML input: ' + error.message);
+      return;
+    }
+
     const requestBody = {
-      host_config: hostConfig,
-      allowed_operations: allowedOperations.split(',').map(op => op.trim()),
+      host_config: parsedHostConfig,
+      allowed_operations: parsedAllowedOperations
     };
 
     try {

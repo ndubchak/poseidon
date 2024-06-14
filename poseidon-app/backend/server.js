@@ -33,6 +33,8 @@ const client = new tridentProto.HostManagement('192.168.242.2:50051', grpc.crede
 
 const getHostStatus = (res, retryCount = 0) => {
   const MAX_RETRIES = 10;
+  const RETRY_INTERVAL = Math.min(1000 * 2 ** retryCount, 30000);
+
   let responseData = [];
   const call = client.GetHostStatus({}, (error, response) => {
     if (error) {
@@ -40,7 +42,7 @@ const getHostStatus = (res, retryCount = 0) => {
       if (retryCount < MAX_RETRIES) {
         setTimeout(() => {
           getHostStatus(res, retryCount + 1);
-        }, 5000); // Retry after 5 seconds
+        }, RETRY_INTERVAL);
       } else {
         return res.status(500).send(error.message);
       }
@@ -60,7 +62,7 @@ const getHostStatus = (res, retryCount = 0) => {
     if (retryCount < MAX_RETRIES) {
       setTimeout(() => {
         getHostStatus(res, retryCount + 1);
-      }, 5000); // Retry after 5 seconds
+      }, RETRY_INTERVAL);
     } else {
       res.status(500).send(error.message);
     }
@@ -86,24 +88,18 @@ app.post('/updateHost', (req, res) => {
   };
   console.log('gRPC Request:', grpcRequest);
 
-  let responseData = [];
   const call = client.UpdateHost(grpcRequest, (error, response) => {
     if (error) {
-      return res.status(500).send(error.message);
+      // Log error without failing
+      console.error('Error in gRPC call:', error);
     }
   });
 
-  call.on('data', (data) => {
-    responseData.push(data);
-  });
-
-  call.on('end', () => {
-    getHostStatus(res);
-  });
+  // Immediately respond to the client
+  res.status(200).send({ message: 'Host update initiated' });
 
   call.on('error', (error) => {
     console.error('Stream error:', error);
-    res.status(500).send(error.message);
   });
 });
 
