@@ -16,10 +16,9 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "node backend/server.js",
+    "client": "react-scripts start"
   },
   "proxy": "http://localhost:8080",
   "eslintConfig": {
@@ -43,6 +42,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "buffer": "^6.0.3",
+    "concurrently": "^8.2.2",
     "react-app-rewired": "^2.2.1"
   }
 }

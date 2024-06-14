@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 
 
 // Define the path to your .proto file
-const PROTO_PATH = '../../trident-server.proto';
+const PROTO_PATH = '/home/aditjha/dev/poseidon/trident-server.proto';
 
 // Load the protobuf definition
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
@@ -110,5 +110,5 @@ app.post('/updateHost', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log('Server is running on port ${PORT}');
+  console.log('Server is running on port 8080');
 });
